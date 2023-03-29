@@ -273,19 +273,31 @@ instance (NatWithinBound (CountOf ty) n, KnownNat n, PrimType ty)
 
 instance (KnownNat n, NatWithinBound Word8 n) => From (Zn64 n) Word8 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . unZn64 where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# w))
+#else
     from = narrow . unZn64 where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . unZn64 where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# w))
 #endif
 instance (KnownNat n, NatWithinBound Word16 n) => From (Zn64 n) Word16 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . unZn64 where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# w))
+#else
     from = narrow . unZn64 where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . unZn64 where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# w))
 #endif
 instance (KnownNat n, NatWithinBound Word32 n) => From (Zn64 n) Word32 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . unZn64 where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# w))
+#else
     from = narrow . unZn64 where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . unZn64 where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# w))
 #endif
@@ -298,19 +310,31 @@ instance From (Zn64 n) Word256 where
 
 instance (KnownNat n, NatWithinBound Word8 n) => From (Zn n) Word8 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# w))
+#else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W8# (wordToWord8# (word64ToWord# w))
 #endif
 instance (KnownNat n, NatWithinBound Word16 n) => From (Zn n) Word16 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# w))
+#else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W16# (wordToWord16# (word64ToWord# w))
 #endif
 instance (KnownNat n, NatWithinBound Word32 n) => From (Zn n) Word32 where
 #if __GLASGOW_HASKELL__ >= 904
+#if WORD_SIZE_IN_BITS < 64
+    from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# w))
+#else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# (GHC.Prim.word64ToWord# w)))
+#endif
 #else
     from = narrow . naturalToWord64 . unZn where narrow (W64# w) = W32# (wordToWord32# (word64ToWord# w))
 #endif

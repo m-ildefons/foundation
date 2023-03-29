@@ -30,7 +30,7 @@ import qualified Basement.Types.Word128 as Word128
 import qualified Basement.Types.Word256 as Word256
 
 #if WORD_SIZE_IN_BITS < 64
-import           GHC.IntWord64
+import GHC.Prim (plusInt64#, int64ToWord64#, word64ToInt64#)
 #endif
 
 -- | Represent class of things that can be added together,
