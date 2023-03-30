@@ -19,7 +19,17 @@ module Basement.Numerical.Conversion
 #include "MachDeps.h"
 
 import GHC.Types
+
+#if WORD_SIZE_IN_BITS == 64
+#if __GLASGOW_HASKELL__ >= 904
 import GHC.Prim
+#else
+import GHC.Prim hiding (word64ToWord#)
+#endif
+#else
+import GHC.Prim
+#endif
+
 import qualified GHC.Prim
 import GHC.Int
 import GHC.Word
@@ -93,9 +103,11 @@ int64ToWord64 (I64# i) = W64# (int64ToWord64# i)
 #endif
 
 #if WORD_SIZE_IN_BITS == 64
+#if __GLASGOW_HASKELL__ < 904
 word64ToWord# :: Word# -> Word#
 word64ToWord# i = i
 {-# INLINE word64ToWord# #-}
+#endif
 #endif
 
 -- | 2 Word32s
